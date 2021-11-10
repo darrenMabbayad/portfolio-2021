@@ -1,116 +1,130 @@
-.container {
-  padding: 0 2rem;
+/* ================ */
+/* Intro Components */
+/* ================ */
+.intro {
+  max-width: 50%;
+  margin: 0 auto;
 }
 
-.main {
-  min-height: 100vh;
-  padding: 4rem 0;
-  flex: 1;
+.introImage {
+  aspect-ratio: 1;
+  width: 12em;
+  height: 12em;
+  border-radius: 100%;
+  object-fit: cover;
+  margin: 2em auto;
+}
+
+.introHeader {
+  text-align: center;
+  font-size: 36px;
+}
+
+.introDescription {
+  margin-top: 1em;
+}
+
+/* ================ */
+/* Typing Game Section Components */
+/* ================ */
+.typingGameSection {
   display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 8em;
+  margin-bottom: 12em;
+}
+
+.typingGame {
+  margin: 0 auto;
+  width: 65%;
+}
+
+.timer {
+  text-align: left;
+  margin-bottom: 0.5em;
+}
+
+.timerOption {
+  border: none;
+  background-color: transparent;
+  padding: 0.1em;
+  cursor: pointer;
+}
+
+.timerOption:hover {
+  color: teal;
+}
+
+.timerOptionActive {
+  color: firebrick;
+}
+
+.showResults {
+  display: none;
+}
+
+/* ================ */
+/* Skill Section Components */
+/* ================ */
+.skillSectionHeader {
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.skillSectionDescription {
+  margin: 1em auto 0 auto;
+  width: 40%;
+}
+
+.skillList {
+  margin: 0 auto;
+  max-width: 50%;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+
+.skill {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  aspect-ratio: 1;
 }
 
-.footer {
-  display: flex;
-  flex: 1;
-  padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
-  justify-content: center;
-  align-items: center;
+.skill svg {
+  width: 6em;
 }
 
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-}
-
-.title a {
-  color: #0070f3;
-  text-decoration: none;
-}
-
-.title a:hover,
-.title a:focus,
-.title a:active {
-  text-decoration: underline;
-}
-
-.title {
-  margin: 0;
-  line-height: 1.15;
-  font-size: 4rem;
-}
-
-.title,
-.description {
+.skill p {
+  margin-top: 0.5em;
   text-align: center;
 }
 
-.description {
-  margin: 4rem 0;
-  line-height: 1.5;
-  font-size: 1.5rem;
-}
+/* ================ */
+/* Media Queries */
+/* ================ */
+@media screen and (max-width: 768px) {
+  .intro {
+    max-width: 90%;
+  }
 
-.code {
-  background: #fafafa;
-  border-radius: 5px;
-  padding: 0.75rem;
-  font-size: 1.1rem;
-  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-    Bitstream Vera Sans Mono, Courier New, monospace;
-}
+  .skillSectionDescription {
+    width: 75%;
+  }
 
-.grid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 800px;
-}
-
-.card {
-  margin: 1rem;
-  padding: 1.5rem;
-  text-align: left;
-  color: inherit;
-  text-decoration: none;
-  border: 1px solid #eaeaea;
-  border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
-  max-width: 300px;
-}
-
-.card:hover,
-.card:focus,
-.card:active {
-  color: #0070f3;
-  border-color: #0070f3;
-}
-
-.card h2 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
-}
-
-.card p {
-  margin: 0;
-  font-size: 1.25rem;
-  line-height: 1.5;
-}
-
-.logo {
-  height: 1em;
-  margin-left: 0.5rem;
-}
-
-@media (max-width: 600px) {
-  .grid {
-    width: 100%;
+  .typingGameSection {
     flex-direction: column;
+  }
+
+  .typingGameInfo {
+    margin-bottom: 2em;
+  }
+
+  .timer {
+    text-align: center;
   }
 }
