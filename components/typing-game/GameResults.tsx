@@ -37,7 +37,9 @@ const GameResults: FunctionComponent<Props> = ({
         </div>
         <div className={styles.resultsInfo}>
           <h4 className={styles.resultsInfoHeader}>accuracy</h4>
-          <p className={styles.resultsInfoText}>{accuracy}%</p>
+          <p className={styles.resultsInfoText}>
+            {typeof accuracy === "number" ? `${accuracy}%` : `n/a`}
+          </p>
         </div>
         <div className={styles.resultsInfo}>
           <h4 className={styles.resultsInfoHeader}>characters</h4>

@@ -248,12 +248,14 @@ export const TypingGame: FunctionComponent<Props> = ({
   }
 
   function startGame() {
+    clearExtraLetters();
     setInputVal("");
     inputRef.current?.focus();
     startTimer(true);
   }
 
   function pauseGame() {
+    clearExtraLetters();
     startTimer(false);
   }
 
@@ -263,6 +265,7 @@ export const TypingGame: FunctionComponent<Props> = ({
       typingCursorRef.current.style.left = "2px";
     }
 
+    clearExtraLetters();
     setInputVal("");
     setWords(shuffle());
     inputRef.current?.focus();
@@ -273,6 +276,14 @@ export const TypingGame: FunctionComponent<Props> = ({
       total: 0,
     });
     resetTimer();
+  }
+
+  function clearExtraLetters() {
+    if (wordsContainerRef.current) {
+      const extraLetters =
+        wordsContainerRef.current.querySelectorAll(".extra-letter");
+      extraLetters.forEach((letter) => letter.remove());
+    }
   }
 
   /* 
