@@ -18,5 +18,5 @@ export function shuffle() {
     ];
   }
 
-  return array.slice(0, 50);
+  return array.slice(0, 40);
 }

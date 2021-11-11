@@ -59,7 +59,6 @@ export const TypingGame: FunctionComponent<Props> = ({
   function handleInput(e: ChangeEvent<HTMLInputElement>) {
     const { value } = e.target;
     // check if the first or last character entered is a SPACE
-    // (value === " " || value.split("")[value.length - 1] === " ") return;
     if (value === " ") return;
 
     setCharacterScore((prev) => ({ ...prev, total: prev.total + 1 }));
@@ -68,7 +67,11 @@ export const TypingGame: FunctionComponent<Props> = ({
   }
 
   function checkLetters() {
-    if (wordsContainerRef.current && inputRef.current) {
+    if (
+      wordsContainerRef.current &&
+      inputRef.current &&
+      typingCursorRef.current
+    ) {
       const activeWord =
         wordsContainerRef.current.querySelector(".word-div.active");
       const letterList = activeWord
@@ -76,7 +79,7 @@ export const TypingGame: FunctionComponent<Props> = ({
         : null;
       const inputValArray = inputRef.current.value.split("");
 
-      if (letterList) {
+      if (activeWord && letterList) {
         if (inputValArray.length > letterList.length) {
           const newLetter = document.createElement("div");
           newLetter.innerText = inputValArray[inputValArray.length - 1];
@@ -84,18 +87,49 @@ export const TypingGame: FunctionComponent<Props> = ({
           newLetter.classList.add("extra-letter");
           newLetter.classList.add("incorrect");
           activeWord?.appendChild(newLetter);
+          const appendedLetters = activeWord?.querySelectorAll(".extra-letter");
+          const lastAppendedLetter = appendedLetters[
+            appendedLetters.length - 1
+          ] as HTMLDivElement;
+
+          if (lastAppendedLetter) {
+            typingCursorRef.current.style.top = `${lastAppendedLetter.offsetTop}px`;
+            typingCursorRef.current.style.left = `${
+              lastAppendedLetter.offsetLeft + lastAppendedLetter.clientWidth
+            }px`;
+          }
+
           setCharacterScore((prev) => ({
             ...prev,
             extra: prev.extra + 1,
             incorrect: prev.incorrect + 1,
           }));
+          return;
         }
 
         for (const i of letterList.keys()) {
           if (!inputValArray[i]) {
+            const letters = activeWord.querySelectorAll(".correct,.incorrect");
+            const lastLetter = letters[i] as HTMLDivElement;
+            if (lastLetter) {
+              typingCursorRef.current.style.top = `${lastLetter.offsetTop}px`;
+              typingCursorRef.current.style.left = `${lastLetter.offsetLeft}px`;
+
+              if (lastLetter.classList.contains("correct")) {
+                setCharacterScore((prev) => ({
+                  ...prev,
+                  correct: prev.correct - 1,
+                }));
+              } else if (lastLetter.classList.contains("incorrect")) {
+                setCharacterScore((prev) => ({
+                  ...prev,
+                  incorrect: prev.incorrect - 1,
+                }));
+              }
+            }
             letterList[i].classList.remove("correct");
             letterList[i].classList.remove("incorrect");
-            continue;
+            return;
           }
 
           if (
@@ -107,6 +141,12 @@ export const TypingGame: FunctionComponent<Props> = ({
 
           if (inputValArray[i] == letterList[i].innerHTML) {
             letterList[i].classList.add("correct");
+            const letters = activeWord.querySelectorAll(".correct");
+            const lastLetter = letters[letters.length - 1] as HTMLDivElement;
+            typingCursorRef.current.style.top = `${lastLetter.offsetTop}px`;
+            typingCursorRef.current.style.left = `${
+              lastLetter.offsetLeft + lastLetter.clientWidth
+            }px`;
             setCharacterScore((prev) => ({
               ...prev,
               correct: prev.correct + 1,
@@ -114,12 +154,29 @@ export const TypingGame: FunctionComponent<Props> = ({
             return;
           } else {
             letterList[i].classList.add("incorrect");
+            const letters = activeWord?.querySelectorAll(".incorrect");
+            const lastLetter = letters[letters.length - 1] as HTMLDivElement;
+            typingCursorRef.current.style.top = `${lastLetter.offsetTop}px`;
+            typingCursorRef.current.style.left = `${
+              lastLetter.offsetLeft + lastLetter.clientWidth
+            }px`;
             setCharacterScore((prev) => ({
               ...prev,
               incorrect: prev.incorrect + 1,
             }));
             return;
           }
+        }
+
+        // condition for first appended letter
+        if (letterList) {
+          const lastLetter = letterList[
+            letterList.length - 1
+          ] as HTMLDivElement;
+          typingCursorRef.current.style.top = `${lastLetter.offsetTop}px`;
+          typingCursorRef.current.style.left = `${
+            lastLetter.offsetLeft + lastLetter.clientWidth
+          }px`;
         }
       }
     }
@@ -130,120 +187,61 @@ export const TypingGame: FunctionComponent<Props> = ({
       wordsContainerRef?.current?.querySelector(".word-div.active");
     const letterList = activeWord?.querySelectorAll(".letter-div");
 
-    if (event.keyCode === 32) {
-      // check SPACEBAR keypress and check status of each letter
-      changeCursorLocation("spacebar");
-      let isCorrect = true;
-      letterList?.forEach((letter) => {
-        if (!letter.classList.contains("correct")) {
-          isCorrect = false;
-        }
-      });
-      if (!isCorrect) {
-        return;
-      } else {
-        if (activeWord?.nextElementSibling) {
-          activeWord?.nextElementSibling?.classList.add("active");
+    if (typingCursorRef.current) {
+      if (event.keyCode === 32) {
+        // check SPACEBAR keypress and check status of each letter
+        let isCorrect = true;
+        letterList?.forEach((letter) => {
+          if (!letter.classList.contains("correct")) {
+            isCorrect = false;
+          }
+        });
+        if (!isCorrect) {
+          const incorrectLetters = activeWord?.querySelectorAll(".incorrect");
+          if (incorrectLetters) {
+            const lastIncorrectLetter = incorrectLetters[
+              incorrectLetters.length - 1
+            ] as HTMLDivElement;
+            activeWord?.nextElementSibling?.classList.add("active");
+
+            if (lastIncorrectLetter) {
+              typingCursorRef.current.style.top = `${lastIncorrectLetter.offsetTop}px`;
+              typingCursorRef.current.style.left = `${
+                lastIncorrectLetter.offsetLeft + lastIncorrectLetter.clientWidth
+              }px`;
+            }
+          }
+          return;
         } else {
-          setWords(shuffle());
-        }
-        activeWord?.classList.remove("active");
-        setInputVal("");
-        return;
-      }
-    } else if (event.keyCode === 8) {
-      // check BACKSPACE
-      if (
-        letterList &&
-        letterList[letterList.length - 1].classList.contains("extra-letter")
-      ) {
-        activeWord?.removeChild(letterList[letterList.length - 1]);
-        setCharacterScore((prev) => ({
-          ...prev,
-          incorrect: prev.incorrect - 1,
-          extra: prev.extra - 1,
-        }));
-      }
-      changeCursorLocation("backspace");
-      return;
-    }
-    changeCursorLocation();
-  }
-
-  function changeCursorLocation(keyPressed?: string) {
-    if (typingCursorRef.current && wordsContainerRef.current) {
-      const typingCursor = typingCursorRef.current;
-      const activeWord = wordsContainerRef?.current?.querySelector(
-        ".word-div.active"
-      ) as HTMLDivElement;
-      const letters = activeWord.querySelectorAll(
-        ".correct:not(.extra-letter),.incorrect:not(.extra-letter)"
-      );
-      const lastLetter = letters[letters.length - 1] as HTMLDivElement;
-
-      if (!lastLetter) {
-        if (keyPressed === "backspace") return; // can't backspace before beginning to type for a word
-        if (keyPressed === "spacebar") {
-          // moving on to the next word
-          typingCursor.style.top = `${activeWord.offsetTop}px`;
-          typingCursor.style.left = `${activeWord.offsetLeft}px`;
+          if (activeWord?.nextElementSibling) {
+            const nextWord = activeWord?.nextElementSibling as HTMLDivElement;
+            activeWord?.nextElementSibling?.classList.add("active");
+            typingCursorRef.current.style.top = `${nextWord.offsetTop}px`;
+            typingCursorRef.current.style.left = `${nextWord.offsetLeft}px`;
+          } else {
+            typingCursorRef.current.style.top = `2px`;
+            typingCursorRef.current.style.left = `2px`;
+            setWords(shuffle());
+          }
+          activeWord?.classList.remove("active");
+          setInputVal("");
           return;
         }
-
-        // typing for the first letter of a word handled here -- lastLetter is null, so position with the first letter
-        const firstLetter = activeWord.querySelector(
-          ".letter-div"
-        ) as HTMLDivElement;
-        typingCursor.style.top = `${firstLetter.offsetTop}px`;
-        typingCursor.style.left = `${
-          firstLetter.offsetLeft + firstLetter.clientWidth
-        }px`;
+      } else if (event.keyCode === 8) {
+        // check BACKSPACE
+        if (
+          letterList &&
+          letterList[letterList.length - 1].classList.contains("extra-letter")
+        ) {
+          activeWord?.removeChild(letterList[letterList.length - 1]);
+          setCharacterScore((prev) => ({
+            ...prev,
+            incorrect: prev.incorrect - 1,
+            extra: prev.extra - 1,
+          }));
+        }
         return;
-      }
-
-      if (lastLetter) {
-        const nextEl = lastLetter.nextElementSibling as HTMLDivElement;
-        const prevEl = lastLetter.previousElementSibling as HTMLDivElement;
-        if (!nextEl) {
-          if (keyPressed === "backspace") {
-            typingCursor.style.top = `${lastLetter.offsetTop}px`;
-            typingCursor.style.left = `${lastLetter.offsetLeft}px`;
-            return;
-          }
-        }
-
-        if (nextEl) {
-          if (keyPressed === "backspace") {
-            if (prevEl) {
-              typingCursor.style.top = `${lastLetter.offsetTop}px`;
-              typingCursor.style.left = `${lastLetter.offsetLeft}px`;
-              return;
-            }
-            if (!prevEl) {
-              typingCursor.style.top = `${activeWord.offsetTop}px`;
-              typingCursor.style.left = `${activeWord.offsetLeft}px`;
-              return;
-            }
-            typingCursor.style.top = `${lastLetter.offsetTop}px`;
-            typingCursor.style.left = `${
-              lastLetter.offsetLeft + lastLetter.clientWidth
-            }px`;
-            return;
-          }
-
-          if (
-            lastLetter.nextElementSibling?.classList.contains("extra-letter")
-          ) {
-            return;
-          }
-
-          typingCursor.style.top = `${nextEl.offsetTop}px`;
-          typingCursor.style.left = `${
-            nextEl.offsetLeft + nextEl.clientWidth
-          }px`;
-          return;
-        }
-      }
+      } else return;
     }
   }
 
