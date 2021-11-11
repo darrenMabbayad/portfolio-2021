@@ -83,6 +83,15 @@
   width: 1.5em;
 }
 
+.typingCursor {
+  height: 25px;
+  width: 2px;
+  background-color: magenta;
+  position: absolute;
+  top: 4px;
+  left: 0;
+}
+
 /* ================ */
 /* Results Components */
 /* ================ */

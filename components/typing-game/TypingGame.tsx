@@ -53,13 +53,14 @@ export const TypingGame: FunctionComponent<Props> = ({
   });
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const typingCursorRef = useRef<HTMLDivElement>(null);
   const wordsContainerRef = useRef<HTMLDivElement>(null);
 
   function handleInput(e: ChangeEvent<HTMLInputElement>) {
     const { value } = e.target;
     // check if the first or last character entered is a SPACE
-    // if (value === " " || value.split("")[value.length - 1] === " ") return;
-    if (value === " ") return;
+    if (value === " " || value.split("")[value.length - 1] === " ") return;
+    // if (value === " ") return;
 
     setCharacterScore((prev) => ({ ...prev, total: prev.total + 1 }));
     setInputVal(value);
@@ -124,8 +125,6 @@ export const TypingGame: FunctionComponent<Props> = ({
     }
   }
 
-  console.log(characterScore);
-
   function handleKeyUp(event: KeyboardEvent) {
     const activeWord =
       wordsContainerRef?.current?.querySelector(".word-div.active");
@@ -149,6 +148,8 @@ export const TypingGame: FunctionComponent<Props> = ({
         }
         activeWord?.classList.remove("active");
         setInputVal("");
+        changeCursorLocation("spacebar");
+        return;
       }
     } else if (event.keyCode === 8) {
       // check BACKSPACE
@@ -162,6 +163,62 @@ export const TypingGame: FunctionComponent<Props> = ({
           incorrect: prev.incorrect - 1,
           extra: prev.extra - 1,
         }));
+      }
+      changeCursorLocation("backspace");
+      return;
+    }
+    changeCursorLocation();
+  }
+
+  function changeCursorLocation(keyPressed?: string) {
+    if (typingCursorRef.current && wordsContainerRef.current) {
+      const activeWord = wordsContainerRef.current.querySelector(
+        ".word-div.active"
+      ) as HTMLDivElement;
+
+      if (activeWord) {
+        const letterList = activeWord.querySelector(
+          //":not(.correct):not(.incorrect):not(.extra)"
+          ".letter-div"
+        ) as HTMLDivElement;
+        const typingCursor = typingCursorRef.current;
+
+        if (keyPressed === "spacebar") {
+          typingCursor.style.top = `${activeWord.offsetTop}px`;
+          typingCursor.style.left = `${activeWord.offsetLeft}px`;
+          return;
+        }
+
+        if (letterList) {
+          console.log(letterList);
+          const prevEl = letterList.previousElementSibling as HTMLDivElement;
+          const nextEl = letterList.nextElementSibling as HTMLDivElement;
+
+          if (keyPressed === "backspace") {
+            if (prevEl !== null) {
+              typingCursor.style.top = `${prevEl.offsetTop}px`;
+              typingCursor.style.left = `${prevEl.offsetLeft}px`;
+              return;
+            }
+            return;
+          }
+
+          if (nextEl !== null) {
+            typingCursor.style.top = `${nextEl.offsetTop}px`;
+            typingCursor.style.left = `${nextEl.offsetLeft}px`;
+            return;
+          } else {
+            typingCursor.style.top = `${letterList.offsetTop}px`;
+            typingCursor.style.left = `${
+              letterList.offsetLeft + letterList.clientWidth
+            }px`;
+            return;
+          }
+        }
+
+        if (keyPressed === "backspace") {
+          console.log("here instead");
+        }
       }
     }
   }
@@ -221,6 +278,9 @@ export const TypingGame: FunctionComponent<Props> = ({
   return (
     <>
       <div className={styles.typingGameContainer}>
+        {isTimerActive && (
+          <div className={styles.typingCursor} ref={typingCursorRef} />
+        )}
         <div
           className={
             isFocused
@@ -293,6 +353,7 @@ export const TypingGame: FunctionComponent<Props> = ({
           className={`${styles.gameButton} ${styles.gameButtonSmall}`}
           onClick={() => {
             setInputVal("");
+            setWords(shuffle());
             inputRef.current?.focus();
             setCharacterScore({
               correct: 0,
