@@ -17,6 +17,7 @@ import {
   faUndo,
 } from "@fortawesome/free-solid-svg-icons";
 import GameResults from "./GameResults";
+import { faPauseCircle } from "@fortawesome/free-regular-svg-icons";
 
 interface Props {
   startTimer: Dispatch<SetStateAction<boolean>>;
@@ -44,7 +45,6 @@ export const TypingGame: FunctionComponent<Props> = ({
 }) => {
   const [words, setWords] = useState<RandomWords>([]);
   const [inputVal, setInputVal] = useState<string>("");
-  const [isFocused, setIsFocused] = useState<boolean>(false);
   const [characterScore, setCharacterScore] = useState<Score>({
     correct: 0,
     incorrect: 0,
@@ -59,8 +59,8 @@ export const TypingGame: FunctionComponent<Props> = ({
   function handleInput(e: ChangeEvent<HTMLInputElement>) {
     const { value } = e.target;
     // check if the first or last character entered is a SPACE
-    if (value === " " || value.split("")[value.length - 1] === " ") return;
-    // if (value === " ") return;
+    // (value === " " || value.split("")[value.length - 1] === " ") return;
+    if (value === " ") return;
 
     setCharacterScore((prev) => ({ ...prev, total: prev.total + 1 }));
     setInputVal(value);
@@ -132,6 +132,7 @@ export const TypingGame: FunctionComponent<Props> = ({
 
     if (event.keyCode === 32) {
       // check SPACEBAR keypress and check status of each letter
+      changeCursorLocation("spacebar");
       let isCorrect = true;
       letterList?.forEach((letter) => {
         if (!letter.classList.contains("correct")) {
@@ -148,7 +149,6 @@ export const TypingGame: FunctionComponent<Props> = ({
         }
         activeWord?.classList.remove("active");
         setInputVal("");
-        changeCursorLocation("spacebar");
         return;
       }
     } else if (event.keyCode === 8) {
@@ -172,55 +172,107 @@ export const TypingGame: FunctionComponent<Props> = ({
 
   function changeCursorLocation(keyPressed?: string) {
     if (typingCursorRef.current && wordsContainerRef.current) {
-      const activeWord = wordsContainerRef.current.querySelector(
+      const typingCursor = typingCursorRef.current;
+      const activeWord = wordsContainerRef?.current?.querySelector(
         ".word-div.active"
       ) as HTMLDivElement;
+      const letters = activeWord.querySelectorAll(
+        ".correct:not(.extra-letter),.incorrect:not(.extra-letter)"
+      );
+      const lastLetter = letters[letters.length - 1] as HTMLDivElement;
 
-      if (activeWord) {
-        const letterList = activeWord.querySelector(
-          //":not(.correct):not(.incorrect):not(.extra)"
-          ".letter-div"
-        ) as HTMLDivElement;
-        const typingCursor = typingCursorRef.current;
-
+      if (!lastLetter) {
+        if (keyPressed === "backspace") return; // can't backspace before beginning to type for a word
         if (keyPressed === "spacebar") {
+          // moving on to the next word
           typingCursor.style.top = `${activeWord.offsetTop}px`;
           typingCursor.style.left = `${activeWord.offsetLeft}px`;
           return;
         }
 
-        if (letterList) {
-          console.log(letterList);
-          const prevEl = letterList.previousElementSibling as HTMLDivElement;
-          const nextEl = letterList.nextElementSibling as HTMLDivElement;
+        // typing for the first letter of a word handled here -- lastLetter is null, so position with the first letter
+        const firstLetter = activeWord.querySelector(
+          ".letter-div"
+        ) as HTMLDivElement;
+        typingCursor.style.top = `${firstLetter.offsetTop}px`;
+        typingCursor.style.left = `${
+          firstLetter.offsetLeft + firstLetter.clientWidth
+        }px`;
+        return;
+      }
 
+      if (lastLetter) {
+        const nextEl = lastLetter.nextElementSibling as HTMLDivElement;
+        const prevEl = lastLetter.previousElementSibling as HTMLDivElement;
+        if (!nextEl) {
           if (keyPressed === "backspace") {
-            if (prevEl !== null) {
-              typingCursor.style.top = `${prevEl.offsetTop}px`;
-              typingCursor.style.left = `${prevEl.offsetLeft}px`;
-              return;
-            }
+            typingCursor.style.top = `${lastLetter.offsetTop}px`;
+            typingCursor.style.left = `${lastLetter.offsetLeft}px`;
             return;
           }
+        }
 
-          if (nextEl !== null) {
-            typingCursor.style.top = `${nextEl.offsetTop}px`;
-            typingCursor.style.left = `${nextEl.offsetLeft}px`;
-            return;
-          } else {
-            typingCursor.style.top = `${letterList.offsetTop}px`;
+        if (nextEl) {
+          if (keyPressed === "backspace") {
+            if (prevEl) {
+              typingCursor.style.top = `${lastLetter.offsetTop}px`;
+              typingCursor.style.left = `${lastLetter.offsetLeft}px`;
+              return;
+            }
+            if (!prevEl) {
+              typingCursor.style.top = `${activeWord.offsetTop}px`;
+              typingCursor.style.left = `${activeWord.offsetLeft}px`;
+              return;
+            }
+            typingCursor.style.top = `${lastLetter.offsetTop}px`;
             typingCursor.style.left = `${
-              letterList.offsetLeft + letterList.clientWidth
+              lastLetter.offsetLeft + lastLetter.clientWidth
             }px`;
             return;
           }
-        }
 
-        if (keyPressed === "backspace") {
-          console.log("here instead");
+          if (
+            lastLetter.nextElementSibling?.classList.contains("extra-letter")
+          ) {
+            return;
+          }
+
+          typingCursor.style.top = `${nextEl.offsetTop}px`;
+          typingCursor.style.left = `${
+            nextEl.offsetLeft + nextEl.clientWidth
+          }px`;
+          return;
         }
       }
     }
+  }
+
+  function startGame() {
+    setInputVal("");
+    inputRef.current?.focus();
+    startTimer(true);
+  }
+
+  function pauseGame() {
+    startTimer(false);
+  }
+
+  function tryAgain() {
+    if (typingCursorRef.current) {
+      typingCursorRef.current.style.top = "2px";
+      typingCursorRef.current.style.left = "2px";
+    }
+
+    setInputVal("");
+    setWords(shuffle());
+    inputRef.current?.focus();
+    setCharacterScore({
+      correct: 0,
+      incorrect: 0,
+      extra: 0,
+      total: 0,
+    });
+    resetTimer();
   }
 
   /* 
@@ -238,12 +290,6 @@ export const TypingGame: FunctionComponent<Props> = ({
   }, [words]);
 
   useEffect(() => {
-    if (showResults) {
-      setIsFocused(false);
-    }
-  }, [showResults]);
-
-  useEffect(() => {
     const firstRenderWords = shuffle();
     setWords(firstRenderWords);
   }, []);
@@ -258,7 +304,7 @@ export const TypingGame: FunctionComponent<Props> = ({
         document.addEventListener("keydown", handleKeyUp);
       }
     };
-  }, []);
+  }, [isTimerActive]);
 
   if (showResults) {
     return (
@@ -283,7 +329,7 @@ export const TypingGame: FunctionComponent<Props> = ({
         )}
         <div
           className={
-            isFocused
+            isTimerActive
               ? `${styles.outOfFocusWarning} ${styles.focused}`
               : `${styles.outOfFocusWarning}`
           }
@@ -299,12 +345,11 @@ export const TypingGame: FunctionComponent<Props> = ({
           autoCorrect="off"
           value={inputVal}
           onChange={(e) => handleInput(e)}
-          onFocus={() => setIsFocused(true)}
           ref={inputRef}
         />
         <div
           className={
-            isFocused
+            isTimerActive
               ? `${styles.wordsContainer}`
               : `${styles.wordsContainer} ${styles.blurred}`
           }
@@ -336,37 +381,38 @@ export const TypingGame: FunctionComponent<Props> = ({
           })}
         </div>
       </div>
-      {!isTimerActive && (
-        <button
-          className={styles.gameButton}
-          onClick={() => {
-            setInputVal("");
-            inputRef.current?.focus();
-            startTimer(true);
-          }}
-        >
-          <FontAwesomeIcon icon={faPlayCircle} />
-        </button>
-      )}
-      {isTimerActive && (
-        <button
-          className={`${styles.gameButton} ${styles.gameButtonSmall}`}
-          onClick={() => {
-            setInputVal("");
-            setWords(shuffle());
-            inputRef.current?.focus();
-            setCharacterScore({
-              correct: 0,
-              incorrect: 0,
-              extra: 0,
-              total: 0,
-            });
-            resetTimer();
-          }}
-        >
-          <FontAwesomeIcon icon={faUndo} />
-        </button>
-      )}
+      <div className={styles.buttonContainer}>
+        {!isTimerActive && (
+          <button
+            className={styles.gameButton}
+            onClick={() => {
+              startGame();
+            }}
+          >
+            <FontAwesomeIcon icon={faPlayCircle} />
+          </button>
+        )}
+        {isTimerActive && (
+          <button
+            className={`${styles.gameButton} ${styles.gameButtonSmall}`}
+            onClick={() => {
+              tryAgain();
+            }}
+          >
+            <FontAwesomeIcon icon={faUndo} />
+          </button>
+        )}
+        {isTimerActive && (
+          <button
+            className={styles.gameButton}
+            onClick={() => {
+              pauseGame();
+            }}
+          >
+            <FontAwesomeIcon icon={faPauseCircle} />
+          </button>
+        )}
+      </div>
     </>
   );
 };
