@@ -2,8 +2,8 @@ import { faFigma, faReact } from "@fortawesome/free-brands-svg-icons";
 import { faDatabase } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { NextPage } from "next";
-import { stringify } from "querystring";
 import { useEffect, useState } from "react";
+import Card from "../components/card/Card";
 import Divider from "../components/common/Divider";
 import { TypingGame } from "../components/typing-game/TypingGame";
 import Layout from "../layouts/Layout";
@@ -76,6 +76,7 @@ const Home: NextPage = () => {
           Funny how things can turn out, eh?
         </p>
       </section>
+      <Divider small={true} />
       <section className={styles.typingGameSection}>
         <div
           className={
@@ -188,7 +189,15 @@ const Home: NextPage = () => {
         </p>
       </section>
       <Divider />
-      <section id="projects"></section>
+      <section id="projects">
+        <h1 className={styles.projectSectionHeader}>Projects and Experience</h1>
+        <div className={styles.projectSectionGrid}>
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+        </div>
+      </section>
     </Layout>
   );
 };

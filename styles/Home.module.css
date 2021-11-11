@@ -3,7 +3,7 @@
 /* ================ */
 .intro {
   max-width: 50%;
-  margin: 0 auto;
+  margin: 0 auto 7em;
 }
 
 .introImage {
@@ -33,7 +33,7 @@
   align-items: center;
   flex-wrap: wrap;
   margin-top: 8em;
-  margin-bottom: 12em;
+  margin-bottom: 10em;
 }
 
 .typingGame {
@@ -67,6 +67,10 @@
 /* ================ */
 /* Skill Section Components */
 /* ================ */
+.skillSection {
+  margin-bottom: 3em;
+}
+
 .skillSectionHeader {
   font-size: 2em;
   text-align: center;
@@ -100,6 +104,20 @@
 
 .skill p {
   margin-top: 0.5em;
+  text-align: center;
+}
+
+/* ================ */
+/* Project List */
+/* ================ */
+.projectSectionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+  margin-top: 3em;
+  gap: 1em;
+}
+
+.projectSectionHeader {
   text-align: center;
 }
 
