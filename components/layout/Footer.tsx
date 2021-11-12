@@ -4,15 +4,15 @@ import {
   faEnvelope,
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "../../styles/components/layout/Footer.module.css";
-import urls from "../../constants/urls";
+import styles from "@styles/components/layout/Footer.module.scss";
+import urls from "@constants/urls";
 
 const Footer = () => {
   return (
     <footer className={styles.footer} id="contact">
       <a className={styles.link} href="mailto:mabbayadd@gmail.com">
-        <FontAwesomeIcon icon={faEnvelope} />
-        <p>Contact Me</p>
+        <FontAwesomeIcon className={styles.linkIcon} icon={faEnvelope} />
+        <p className={styles.linkText}>Contact Me</p>
       </a>
       <a
         className={styles.link}
@@ -20,8 +20,8 @@ const Footer = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <FontAwesomeIcon icon={faGithub} />
-        <p>Github</p>
+        <FontAwesomeIcon className={styles.linkIcon} icon={faGithub} />
+        <p className={styles.linkText}>Github</p>
       </a>
       <a
         className={styles.link}
@@ -29,8 +29,8 @@ const Footer = () => {
         target="_blank"
         rel="noopener norefferer"
       >
-        <FontAwesomeIcon icon={faLinkedin} />
-        <p>LinkedIn</p>
+        <FontAwesomeIcon className={styles.linkIcon} icon={faLinkedin} />
+        <p className={styles.linkText}>LinkedIn</p>
       </a>
       <a
         className={styles.link}
@@ -38,8 +38,11 @@ const Footer = () => {
         target="_blank"
         rel="noopener norefferer"
       >
-        <FontAwesomeIcon icon={faArrowAltCircleDown} />
-        <p>Resume</p>
+        <FontAwesomeIcon
+          className={styles.linkIcon}
+          icon={faArrowAltCircleDown}
+        />
+        <p className={styles.linkText}>Resume</p>
       </a>
     </footer>
   );

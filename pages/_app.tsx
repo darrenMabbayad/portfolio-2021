@@ -1,5 +1,5 @@
-import "../styles/globals.css";
-import "../styles/components/typing-game/TypingGameBase.css";
+import "@styles/globals.scss";
+import "@styles/components/typing-game/TypingGameGlobals.scss";
 import type { AppProps } from "next/app";
 
 function MyApp({ Component, pageProps }: AppProps) {

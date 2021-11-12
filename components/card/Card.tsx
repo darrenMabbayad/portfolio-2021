@@ -1,26 +1,47 @@
 import { FunctionComponent } from "react";
-import styles from "../../styles/components/card/Card.module.css";
+import styles from "@styles/components/card/Card.module.scss";
 
-interface Props {}
+interface Props {
+  title: string;
+  image?: string;
+  links?: Array<ButtonLink>;
+  description?: string;
+}
 
-const Card: FunctionComponent<Props> = () => {
+interface ButtonLink {
+  text: string;
+  href: string;
+}
+
+const Card: FunctionComponent<Props> = ({
+  title = "",
+  image = "",
+  links = [],
+  description = "",
+}) => {
   return (
     <div className={styles.cardContainer}>
-      <h2 className={styles.cardTitle}>Header</h2>
-      <img className={styles.cardImage} src="/the_homie.jpg" />
-      <div className={styles.cardLinkContainer}>
-        <a className={styles.cardLink} href="#">
-          Link Btn
-        </a>
-        <a className={styles.cardLink} href="#">
-          Link Btn
-        </a>
+      <h2 className={styles.cardTitle}>{title}</h2>
+      <div className={styles.cardImageContainer}>
+        <img
+          className={styles.cardImage}
+          src={image ? `/${image}` : "/the_homie.jpg"}
+        />
       </div>
-      <p className={styles.cardDescription}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro sapiente
-        quibusdam repudiandae, dicta omnis repellendus consequatur. Culpa et id
-        tenetur numquam aliquam ex velit eligendi beatae, ad sed eveniet error.
-      </p>
+      <div className={styles.cardLinkContainer}>
+        {links.map((link, index) => (
+          <a
+            key={`project-card-${index}`}
+            className={styles.cardLink}
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {link.text}
+          </a>
+        ))}
+      </div>
+      <p className={styles.cardDescription}>{description}</p>
     </div>
   );
 };

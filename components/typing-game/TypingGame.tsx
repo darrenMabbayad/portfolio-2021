@@ -1,4 +1,4 @@
-import styles from "../../styles/components/typing-game/TypingGame.module.css";
+import styles from "@styles/components/typing-game/TypingGame.module.scss";
 import {
   ChangeEvent,
   Dispatch,
@@ -26,6 +26,7 @@ interface Props {
   isTimerActive: boolean;
   showResults: boolean;
   timerSetting: number;
+  timer: number;
 }
 
 interface Score {
@@ -42,6 +43,7 @@ export const TypingGame: FunctionComponent<Props> = ({
   isTimerActive,
   showResults,
   timerSetting,
+  timer,
 }) => {
   const [words, setWords] = useState<RandomWords>([]);
   const [inputVal, setInputVal] = useState<string>("");
@@ -51,6 +53,7 @@ export const TypingGame: FunctionComponent<Props> = ({
     extra: 0,
     total: 0,
   });
+  const [chartData, setChartData] = useState<Array<Score>>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const typingCursorRef = useRef<HTMLDivElement>(null);
@@ -298,6 +301,34 @@ export const TypingGame: FunctionComponent<Props> = ({
     }
   }, [words]);
 
+  /*
+    if the user pauses, then changes the time setting, clear any 
+    correct/incorrect classnames and reset the word array
+  */
+  useEffect(() => {
+    if (wordsContainerRef.current) {
+      const typedLetters = wordsContainerRef.current.querySelectorAll(
+        ".correct,.incorrect"
+      );
+      typedLetters.forEach((letter) => {
+        if (letter.classList.contains("correct")) {
+          letter.classList.remove("correct");
+        } else if (letter.classList.contains("incorrect")) {
+          letter.classList.remove("incorrect");
+        }
+      });
+      setWords(shuffle());
+    }
+  }, [timerSetting]);
+
+  /*
+    track the characterScore every second 
+  */
+  useEffect(() => {
+    const temp = [...chartData, characterScore];
+    setChartData(temp);
+  }, [timer]);
+
   useEffect(() => {
     const firstRenderWords = shuffle();
     setWords(firstRenderWords);
@@ -326,6 +357,7 @@ export const TypingGame: FunctionComponent<Props> = ({
           setWords(newWords);
           resetGame();
         }}
+        chartData={chartData}
       />
     );
   }
@@ -343,8 +375,11 @@ export const TypingGame: FunctionComponent<Props> = ({
               : `${styles.outOfFocusWarning}`
           }
         >
-          <FontAwesomeIcon icon={faMousePointer} />
-          <p>Click start to begin!</p>
+          <FontAwesomeIcon
+            className={styles.outOfFocusWarningIcon}
+            icon={faMousePointer}
+          />
+          <p className={styles.outOfFocusWarningText}>Click start to begin!</p>
         </div>
         <input
           className={styles.typingInput}
@@ -398,7 +433,10 @@ export const TypingGame: FunctionComponent<Props> = ({
               startGame();
             }}
           >
-            <FontAwesomeIcon icon={faPlayCircle} />
+            <FontAwesomeIcon
+              className={styles.gameButtonIcon}
+              icon={faPlayCircle}
+            />
           </button>
         )}
         {isTimerActive && (
@@ -408,7 +446,7 @@ export const TypingGame: FunctionComponent<Props> = ({
               tryAgain();
             }}
           >
-            <FontAwesomeIcon icon={faUndo} />
+            <FontAwesomeIcon className={styles.gameButtonIcon} icon={faUndo} />
           </button>
         )}
         {isTimerActive && (
@@ -418,7 +456,10 @@ export const TypingGame: FunctionComponent<Props> = ({
               pauseGame();
             }}
           >
-            <FontAwesomeIcon icon={faPauseCircle} />
+            <FontAwesomeIcon
+              className={styles.gameButtonIcon}
+              icon={faPauseCircle}
+            />
           </button>
         )}
       </div>

@@ -1,3 +1,5 @@
+@import "@styles/variables.scss";
+
 .footer {
   margin: 0 auto;
   display: flex;
@@ -5,7 +7,7 @@
   align-items: center;
   width: 100%;
   max-width: 800px;
-  padding: 2em;
+  padding: 0 2em 2em 2em;
 }
 
 .link {
@@ -13,12 +15,19 @@
   margin: 0.5em;
 }
 
-.link svg {
+.linkIcon {
   width: 1em;
+  color: $sub-color;
 }
 
-.link p {
+.linkText {
   margin-left: 0.25em;
+}
+
+.link:hover .linkText,
+.link:hover .linkIcon {
+  transition: all 0.1s ease-in-out;
+  color: $accent-color;
 }
 
 @media screen and (max-width: 576px) {

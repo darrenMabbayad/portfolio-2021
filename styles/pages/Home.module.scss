@@ -1,0 +1,232 @@
+@import "@styles/variables.scss";
+
+/* ================ */
+/* Intro Components */
+/* ================ */
+.introSection {
+  max-width: 50%;
+  margin: 0 auto;
+}
+
+.introImage {
+  aspect-ratio: 1;
+  width: 12em;
+  height: 12em;
+  border-radius: 100%;
+  object-fit: cover;
+  margin: 2em auto;
+  box-shadow: 0 0 0 5px $accent-color, 0 0 0 10px $sub-color;
+}
+
+.introHeader {
+  font-family: "Roboto Mono", sans-serif;
+  text-align: center;
+  font-size: 3em;
+}
+
+.introDescription {
+  margin-top: 1em;
+}
+
+/* ================ */
+/* Typing Game Section Components */
+/* ================ */
+.typingGameSection {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.typingGameInfoCta {
+  font-family: "Roboto Mono", sans-serif;
+  font-weight: 700;
+}
+
+.typingGame {
+  width: 65%;
+}
+
+.timer {
+  text-align: left;
+  margin-bottom: 0.5em;
+}
+
+.timerOption {
+  border: none;
+  background-color: transparent;
+  padding: 0.1em;
+  cursor: pointer;
+  color: $sub-color;
+  font-family: "Roboto Mono", sans-serif;
+  font-weight: 300;
+}
+
+.timerOption:hover {
+  color: $accent-color;
+}
+
+.timerOptionActive {
+  color: $text-color;
+}
+
+.showResults {
+  display: none;
+}
+
+/* ================ */
+/* Skill Section Components */
+/* ================ */
+.skillSection {
+  margin: 0 auto;
+}
+
+.skillSectionHeader {
+  font-family: "Roboto Mono", sans-serif;
+  font-size: 3em;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.skillSectionDescription {
+  margin: 1em auto 0 auto;
+  width: 40%;
+}
+
+.skillList {
+  margin: 0 auto;
+  max-width: 50%;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+
+.skill {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+  aspect-ratio: 1;
+}
+
+.skillIcon {
+  width: 6em;
+  color: $white-fallback-color;
+}
+
+.skillText {
+  margin-top: 0.5em;
+  text-align: center;
+  color: $white-fallback-color;
+}
+
+/* ================ */
+/* Project List */
+/* ================ */
+.projectSection {
+  margin: 0 auto;
+}
+
+.projectSectionHeader {
+  font-family: "Roboto Mono", sans-serif;
+  font-size: 3em;
+  text-align: center;
+}
+
+.projectSectionSubText {
+  text-align: center;
+}
+
+.projectSectionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+  gap: 2em;
+  margin: 3em auto 0 auto;
+  width: 80%;
+}
+
+.mainProject {
+  margin-top: 3em;
+}
+
+.mainProjectHeader {
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.mainProjectImage {
+  width: 100%;
+  border-radius: 6px;
+}
+
+.mainProjectInfoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 65%;
+  margin: 0 auto;
+}
+
+.mainProjectDescription {
+  margin: 2em 2em 2em 0;
+}
+
+.mainProjectLink {
+  white-space: nowrap;
+  width: max-content;
+  padding: 1em;
+  background-color: $text-color;
+  color: $black-fallback-color;
+  border-radius: 6px;
+}
+
+.mainProjectLink:hover {
+  transition: all 0.15s ease-out;
+  color: $white-fallback-color;
+  background-color: $accent-color;
+}
+
+.preFooter {
+  text-align: center;
+}
+
+/* ================ */
+/* Media Queries */
+/* ================ */
+@media screen and (max-width: 768px) {
+  .introSection {
+    max-width: 90%;
+  }
+
+  .skillSectionDescription {
+    width: 75%;
+  }
+
+  .typingGameSection {
+    flex-direction: column;
+  }
+
+  .typingGameInfo {
+    margin-bottom: 2em;
+  }
+
+  .timer {
+    text-align: center;
+  }
+
+  .mainProjectInfoContainer {
+    max-width: 85%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .mainProjectInfoContainer {
+    flex-direction: column;
+    max-width: 95%;
+  }
+
+  .mainProjectDescription {
+    margin: 2em auto;
+  }
+}

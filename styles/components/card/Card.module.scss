@@ -1,0 +1,55 @@
+@import "@styles/variables.scss";
+
+.cardContainer {
+  background-color: $bg-alt-color;
+  box-shadow: 3px 4px 10px 1px rgba($sub-color, 0.1);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.5em;
+}
+
+.cardTitle {
+  font-family: "Roboto Mono", sans-serif;
+}
+
+.cardImageContainer {
+  width: 100%;
+  margin: 1em 0;
+  background-color: black;
+  border-radius: 6px;
+}
+
+.cardImage {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.cardLinkContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+.cardLink {
+  display: block;
+  margin: 0.25em;
+  padding: 0.25em;
+  background-color: $text-color;
+  color: $black-fallback-color;
+  width: max-content;
+}
+
+.cardLink:hover {
+  color: $white-fallback-color;
+  background-color: $accent-color;
+  transition: all 0.15s ease-out;
+}
+
+.cardDescription {
+  margin: 0.5em 0.25em 0 0.25em;
+}

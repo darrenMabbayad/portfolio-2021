@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "../../styles/components/common/Divider.module.css";
+import styles from "@styles/components/common/Divider.module.scss";
 
 interface Props {
   small?: boolean;

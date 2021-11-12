@@ -3,11 +3,11 @@ import { faDatabase } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import Card from "../components/card/Card";
-import Divider from "../components/common/Divider";
-import { TypingGame } from "../components/typing-game/TypingGame";
-import Layout from "../layouts/Layout";
-import styles from "../styles/Home.module.css";
+import Card from "@components/card/Card";
+import Divider from "@components/common/Divider";
+import { TypingGame } from "@components/typing-game/TypingGame";
+import Layout from "@layouts/Layout";
+import styles from "@styles/pages/Home.module.scss";
 
 const Home: NextPage = () => {
   const [timer, setTimer] = useState<number>(15);
@@ -61,7 +61,7 @@ const Home: NextPage = () => {
 
   return (
     <Layout>
-      <section className={styles.intro}>
+      <section className={styles.introSection}>
         <h1 className={styles.introHeader}>Hey, my name is Darren!</h1>
         <img className={styles.introImage} src="/me.jpg" alt="me" />
         <p className={styles.introDescription}>
@@ -85,7 +85,7 @@ const Home: NextPage = () => {
               : `${styles.typingGameInfo}`
           }
         >
-          <h3>Try this real quick!</h3>
+          <h3 className={styles.typingGameInfoCta}>Try this real quick!</h3>
           <button
             className={
               timerSetting === 15
@@ -156,6 +156,7 @@ const Home: NextPage = () => {
             isTimerActive={isTimerActive}
             showResults={showTypingGameResults}
             timerSetting={timerSetting}
+            timer={timer}
           />
         </div>
       </section>
@@ -164,16 +165,16 @@ const Home: NextPage = () => {
         <h1 className={styles.skillSectionHeader}>What I do</h1>
         <div className={styles.skillList}>
           <div className={styles.skill}>
-            <FontAwesomeIcon icon={faReact} />
-            <p>React</p>
+            <FontAwesomeIcon className={styles.skillIcon} icon={faReact} />
+            <p className={styles.skillText}>React</p>
           </div>
           <div className={styles.skill}>
-            <FontAwesomeIcon icon={faDatabase} />
-            <p>MongoDB</p>
+            <FontAwesomeIcon className={styles.skillIcon} icon={faDatabase} />
+            <p className={styles.skillText}>MongoDB</p>
           </div>
           <div className={styles.skill}>
-            <FontAwesomeIcon icon={faFigma} />
-            <p>UI/UX</p>
+            <FontAwesomeIcon className={styles.skillIcon} icon={faFigma} />
+            <p className={styles.skillText}>UI/UX</p>
           </div>
         </div>
         <p className={styles.skillSectionDescription}>
@@ -189,15 +190,75 @@ const Home: NextPage = () => {
         </p>
       </section>
       <Divider />
-      <section id="projects">
+      <section className={styles.projectSection} id="projects">
         <h1 className={styles.projectSectionHeader}>Projects and Experience</h1>
+        <p className={styles.projectSectionSubText}>
+          Check out the work I've done
+        </p>
+        <div className={styles.mainProject}>
+          <h2 className={styles.mainProjectHeader}>Live X</h2>
+          <img className={styles.mainProjectImage} src="/livex.png" alt="" />
+          <div className={styles.mainProjectInfoContainer}>
+            <p className={styles.mainProjectDescription}>
+              A virtual events platform I built while working at Nextech AR
+              Solutions with support for text and video chat, livestreaming,
+              Google Adsense and GPT ads, language localization, and client
+              customizable components.
+            </p>
+            <a
+              className={styles.mainProjectLink}
+              href="https://www.nextechar.com/livex"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Learn More
+            </a>
+          </div>
+        </div>
         <div className={styles.projectSectionGrid}>
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          <Card
+            title={"JustOne/C"}
+            image={"justone-card.png"}
+            links={[
+              {
+                text: "Try it out",
+                href: "https://justone-game.herokuapp.com/login",
+              },
+            ]}
+            description={
+              "A 4 - 8 player word guessing game I developed with two other fantastic developers at the Hatchways co-op program, with an optional video chat feature."
+            }
+          />
+          <Card
+            title={"HunterMains"}
+            image={"huntermains-card.jpg"}
+            links={[
+              {
+                text: "Check it out",
+                href: "https://justone-game.herokuapp.com/login",
+              },
+            ]}
+            description={
+              "A Destiny 2 themed static website I deployed when I first started learning about web development and UI/UX."
+            }
+          />
+          <Card
+            title={"DiscordBot"}
+            image={"discord-card.png"}
+            links={[
+              {
+                text: "Github",
+                href: "https://github.com/darrenMabbayad/discord-multi-use-bot",
+              },
+            ]}
+            description={
+              "A discord bot I made for fun so that I can test out different admin/user commands on my own Discord server."
+            }
+          />
         </div>
       </section>
+      <Divider small={true} />
+      <p className={styles.preFooter}>Get in touch with me</p>
     </Layout>
   );
 };

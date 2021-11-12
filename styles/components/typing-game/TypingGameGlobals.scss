@@ -1,0 +1,13 @@
+@import "@styles/variables.scss";
+
+.extra-letter {
+  font-size: 1.25em;
+}
+
+.correct {
+  color: $text-color !important;
+}
+
+.incorrect {
+  color: $accent-color !important;
+}

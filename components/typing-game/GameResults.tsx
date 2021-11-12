@@ -1,7 +1,7 @@
 import { faUndo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FunctionComponent } from "react";
-import styles from "../../styles/components/typing-game/TypingGame.module.css";
+import styles from "@styles/components/typing-game/TypingGame.module.scss";
 
 interface Props {
   timerSetting: number;
@@ -12,12 +12,21 @@ interface Props {
     total: number;
   };
   resetGame: () => void;
+  chartData: Array<Score>;
+}
+
+interface Score {
+  correct: number;
+  incorrect: number;
+  extra: number;
+  total: number;
 }
 
 const GameResults: FunctionComponent<Props> = ({
   timerSetting,
   characters,
   resetGame,
+  chartData,
 }) => {
   const { correct, incorrect, extra, total } = characters;
   const grossWpm = Math.floor(total / 5 / (timerSetting / 60));
@@ -28,13 +37,13 @@ const GameResults: FunctionComponent<Props> = ({
     <div>
       <div className={styles.resultsInfoContainer}>
         <div className={styles.resultsInfo}>
-          <h4 className={styles.resultsInfoHeader}>WPM</h4>
+          <h4 className={styles.resultsInfoHeader}>wpm</h4>
           <p className={styles.resultsInfoText}>{netWpm}</p>
         </div>
         <div className={styles.resultsInfo}>
           <h4 className={styles.resultsInfoHeader}>accuracy</h4>
           <p className={styles.resultsInfoText}>
-            {typeof accuracy === "number" ? `${accuracy}%` : `n/a`}
+            {accuracy ? `${accuracy}%` : `n/a`}
           </p>
         </div>
         <div className={styles.resultsInfo}>
@@ -48,7 +57,7 @@ const GameResults: FunctionComponent<Props> = ({
         className={`${styles.gameButton} ${styles.gameButtonSmall} ${styles.resultsButton}`}
         onClick={() => resetGame()}
       >
-        <FontAwesomeIcon icon={faUndo} />
+        <FontAwesomeIcon className={styles.gameButtonIcon} icon={faUndo} />
       </button>
     </div>
   );

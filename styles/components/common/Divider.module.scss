@@ -1,0 +1,12 @@
+@import "@styles/variables.scss";
+
+.divider {
+  color: $white-fallback-color;
+  opacity: 0.6;
+  width: 70%;
+  margin: 8em auto;
+}
+
+.dividerSmall {
+  width: 30%;
+}

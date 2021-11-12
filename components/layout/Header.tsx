@@ -1,9 +1,9 @@
-import styles from "../../styles/components/layout/Header.module.css";
+import styles from "@styles/components/layout/Header.module.scss";
 
 const Header = () => {
   return (
     <header className={styles.header}>
-      <h3>{`<DM />`}</h3>
+      <h3 className={styles.navlogo}>{`<dm />`}</h3>
       <nav className={styles.nav}>
         <a className={styles.navlink} href="#projects">
           projects

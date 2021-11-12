@@ -1,3 +1,5 @@
+@import "@styles/variables.scss";
+
 /* ================ */
 /* Game Layout */
 /* ================ */
@@ -42,9 +44,16 @@
   align-items: center;
 }
 
-.outOfFocusWarning svg {
+.outOfFocusWarningIcon {
   width: 0.75em;
   margin-right: 1em;
+  color: $text-color;
+}
+
+.outOfFocusWarningText {
+  color: $text-color;
+  font-family: "Roboto Mono", sans-serif;
+  font-weight: 700;
 }
 
 .focused {
@@ -52,6 +61,7 @@
 }
 
 .blurred {
+  opacity: 0.3;
   transition: all 0.25s ease 0s;
   filter: blur(4px);
   -webkit-filter: blur(4px);
@@ -67,7 +77,7 @@
 
 .letter {
   font-size: 1.25em;
-  color: black;
+  color: $sub-color;
 }
 
 .buttonContainer {
@@ -87,6 +97,16 @@
   cursor: pointer;
 }
 
+.gameButtonIcon {
+  color: $sub-color;
+}
+
+.gameButton:hover .gameButtonIcon {
+  transition: all 0.1s ease-in-out;
+  color: $accent-color;
+  transform: scale(1.2);
+}
+
 .gameButtonSmall {
   width: 1.5em;
 }
@@ -94,7 +114,8 @@
 .typingCursor {
   height: 25px;
   width: 2px;
-  background-color: magenta;
+  background-color: $sub-color;
+  opacity: 0.75;
   position: absolute;
   top: 2px;
   left: 2px;
@@ -116,11 +137,14 @@
 }
 
 .resultsInfoHeader {
-  color: teal;
+  color: $text-color;
+  font-family: "Roboto Mono", sans-serif;
+  font-weight: 700;
+  font-size: 1.75em;
 }
 
 .resultsInfoText {
-  color: firebrick;
+  color: $sub-color;
 }
 
 .resultsButton {

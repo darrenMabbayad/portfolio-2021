@@ -1,4 +1,4 @@
-import commonEnglishWords from "../../../constants/words";
+import commonEnglishWords from "@constants/words";
 
 export function shuffle() {
   let array = [...commonEnglishWords];
