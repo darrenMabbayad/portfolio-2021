@@ -29,13 +29,21 @@ const GameResults: FunctionComponent<Props> = ({
   chartData,
 }) => {
   const { correct, incorrect, extra, total } = characters;
-  const grossWpm = Math.floor(total / 5 / (timerSetting / 60));
-  const netWpm = Math.floor(grossWpm - incorrect / (timerSetting / 60));
+  const minutes = timerSetting / 60;
+  const grossWpmNumerator = total / 5;
+  const grossWpm = Math.floor(grossWpmNumerator / minutes);
+
+  const uncorrectedErrors = incorrect / minutes;
+  const netWpm = Math.floor(grossWpm - uncorrectedErrors);
   const accuracy = Math.floor((correct / total) * 100);
 
   return (
     <div>
       <div className={styles.resultsInfoContainer}>
+        <div className={styles.resultsInfo}>
+          <h4 className={styles.resultsInfoHeader}>raw</h4>
+          <p className={styles.resultsInfoText}>{grossWpm}</p>
+        </div>
         <div className={styles.resultsInfo}>
           <h4 className={styles.resultsInfoHeader}>wpm</h4>
           <p className={styles.resultsInfoText}>{netWpm}</p>

@@ -250,6 +250,12 @@ export const TypingGame: FunctionComponent<Props> = ({
 
   function startGame() {
     clearExtraLetters();
+    setCharacterScore({
+      correct: 0,
+      incorrect: 0,
+      extra: 0,
+      total: 0,
+    });
     setInputVal("");
     inputRef.current?.focus();
     startTimer(true);
@@ -270,12 +276,6 @@ export const TypingGame: FunctionComponent<Props> = ({
     setInputVal("");
     setWords(shuffle());
     inputRef.current?.focus();
-    setCharacterScore({
-      correct: 0,
-      incorrect: 0,
-      extra: 0,
-      total: 0,
-    });
     resetTimer();
   }
 
