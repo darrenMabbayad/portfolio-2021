@@ -222,6 +222,10 @@ const Home: NextPage = () => {
                 text: "Try it out",
                 href: "https://justone-game.herokuapp.com/login",
               },
+              {
+                text: "Github",
+                href: "https://github.com/hatchways/team-coconut",
+              },
             ]}
             description={
               "A 4 - 8 player word guessing game I developed with two other fantastic developers at the Hatchways co-op program, with an optional video chat feature."
@@ -233,7 +237,11 @@ const Home: NextPage = () => {
             links={[
               {
                 text: "Check it out",
-                href: "https://justone-game.herokuapp.com/login",
+                href: "https://huntermains.netlify.app/",
+              },
+              {
+                text: "Github",
+                href: "https://github.com/darrenMabbayad/destiny-site-for-interview",
               },
             ]}
             description={
