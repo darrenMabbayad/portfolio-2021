@@ -186,6 +186,10 @@ export const TypingGame: FunctionComponent<Props> = ({
   }
 
   function handleKeyUp(event: KeyboardEvent) {
+    if (!isTimerActive && event.keyCode === 32) {
+      event.preventDefault();
+    }
+
     const activeWord =
       wordsContainerRef?.current?.querySelector(".word-div.active");
     const letterList = activeWord?.querySelectorAll(".letter-div");

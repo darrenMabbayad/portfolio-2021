@@ -160,3 +160,14 @@
     margin: 0 auto;
   }
 }
+
+@media screen and (max-width: 576px) {
+  .resultsInfoContainer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .resultsInfo {
+    margin: 1em 1em 1em 0;
+  }
+}

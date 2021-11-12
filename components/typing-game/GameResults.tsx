@@ -53,7 +53,7 @@ const GameResults: FunctionComponent<Props> = ({
   const accuracy = Math.floor((correct / total) * 100);
 
   return (
-    <div>
+    <>
       <div className={styles.resultsInfoContainer}>
         <div
           className={styles.resultsInfo}
@@ -126,7 +126,7 @@ const GameResults: FunctionComponent<Props> = ({
       >
         <FontAwesomeIcon className={styles.gameButtonIcon} icon={faUndo} />
       </button>
-    </div>
+    </>
   );
 };
 
