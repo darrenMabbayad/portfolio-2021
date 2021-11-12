@@ -27,16 +27,16 @@ const Footer = () => {
         className={styles.link}
         href={urls.LINKED_IN_URL}
         target="_blank"
-        rel="noopener norefferer"
+        rel="noopener noreferrer"
       >
         <FontAwesomeIcon className={styles.linkIcon} icon={faLinkedin} />
         <p className={styles.linkText}>LinkedIn</p>
       </a>
       <a
         className={styles.link}
-        href=""
+        href="https://drive.google.com/file/d/1sOmrYWj4gNU68bXKQM1I-OtREBjO0dbg/view?usp=sharing"
         target="_blank"
-        rel="noopener norefferer"
+        rel="noopener noreferrer"
       >
         <FontAwesomeIcon
           className={styles.linkIcon}

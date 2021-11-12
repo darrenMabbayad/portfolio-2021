@@ -65,7 +65,7 @@ const Home: NextPage = () => {
         <h1 className={styles.introHeader}>Hey, my name is Darren!</h1>
         <img className={styles.introImage} src="/me.jpg" alt="me" />
         <p className={styles.introDescription}>
-          I'm a self taught developer with a background in Electrical/Computer
+          I am a self taught developer with a background in Electrical/Computer
           Engineering. I started learning about web development in January 2020,
           just for fun. Getting to know the fundamentals, choosing a tech stack,
           building silly apps - then just <strong>10 months</strong> after
