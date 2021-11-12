@@ -192,9 +192,7 @@ const Home: NextPage = () => {
       <Divider />
       <section className={styles.projectSection} id="projects">
         <h1 className={styles.projectSectionHeader}>Projects and Experience</h1>
-        <p className={styles.projectSectionSubText}>
-          Check out the work I've done
-        </p>
+        <p className={styles.projectSectionSubText}>Check out my work</p>
         <div className={styles.mainProject}>
           <h2 className={styles.mainProjectHeader}>Live X</h2>
           <img className={styles.mainProjectImage} src="/livex.png" alt="" />
