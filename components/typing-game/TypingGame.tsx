@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { RandomWords } from "./typing-game.types";
+import { RandomWords, Score, ScoreWithTimeStamp } from "./typing-game.types";
 import { shuffle } from "./utils/typing-game.utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -29,13 +29,6 @@ interface Props {
   timer: number;
 }
 
-interface Score {
-  correct: number;
-  incorrect: number;
-  extra: number;
-  total: number;
-}
-
 export const TypingGame: FunctionComponent<Props> = ({
   startTimer,
   resetTimer,
@@ -53,7 +46,7 @@ export const TypingGame: FunctionComponent<Props> = ({
     extra: 0,
     total: 0,
   });
-  const [chartData, setChartData] = useState<Array<Score>>([]);
+  const [chartData, setChartData] = useState<Array<ScoreWithTimeStamp>>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const typingCursorRef = useRef<HTMLDivElement>(null);
@@ -260,6 +253,7 @@ export const TypingGame: FunctionComponent<Props> = ({
       extra: 0,
       total: 0,
     });
+    setChartData([]);
     setInputVal("");
     inputRef.current?.focus();
     startTimer(true);
@@ -277,6 +271,13 @@ export const TypingGame: FunctionComponent<Props> = ({
     }
 
     clearExtraLetters();
+    setCharacterScore({
+      correct: 0,
+      incorrect: 0,
+      extra: 0,
+      total: 0,
+    });
+    setChartData([]);
     setInputVal("");
     setWords(shuffle());
     inputRef.current?.focus();
@@ -329,7 +330,8 @@ export const TypingGame: FunctionComponent<Props> = ({
     track the characterScore every second 
   */
   useEffect(() => {
-    const temp = [...chartData, characterScore];
+    const dataset = { ...characterScore, second: timerSetting - timer };
+    const temp = [...chartData, dataset];
     setChartData(temp);
   }, [timer]);
 
@@ -353,7 +355,6 @@ export const TypingGame: FunctionComponent<Props> = ({
   if (showResults) {
     return (
       <GameResults
-        timerSetting={timerSetting}
         characters={characterScore}
         resetGame={() => {
           setInputVal("");
@@ -369,9 +370,6 @@ export const TypingGame: FunctionComponent<Props> = ({
   return (
     <>
       <div className={styles.typingGameContainer}>
-        {isTimerActive && (
-          <div className={styles.typingCursor} ref={typingCursorRef} />
-        )}
         <div
           className={
             isTimerActive
@@ -403,6 +401,7 @@ export const TypingGame: FunctionComponent<Props> = ({
           }
           ref={wordsContainerRef}
         >
+          <div className={styles.typingCursor} ref={typingCursorRef} />
           {words.map((word, index) => {
             const map = Array.prototype.map;
             return (

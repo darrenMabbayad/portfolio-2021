@@ -29,6 +29,7 @@
   display: inline-flex;
   flex-wrap: wrap;
   pointer-events: none;
+  position: relative;
 }
 
 /* ================ */
@@ -135,6 +136,7 @@
 .resultsInfo {
   margin: 2em;
   position: relative;
+  cursor: default;
 }
 
 .resultsInfoHeader {
@@ -170,4 +172,12 @@
   .resultsInfo {
     margin: 1em 1em 1em 0;
   }
+}
+
+:export {
+  mainColor: $main-color;
+  subColor: $sub-color;
+  textColor: $text-color;
+  accentColor: $accent-color;
+  whiteColor: $white-fallback-color;
 }
