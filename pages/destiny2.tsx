@@ -1,3 +1,5 @@
+import { getDestinyDefinitionsObject, getManifest } from "utils/asyncHandlers";
+
 interface Props {
   dataAsArr: Array<Object>;
 }
@@ -32,20 +34,7 @@ const Destiny2 = ({ dataAsArr }: Props) => {
 };
 
 export async function getStaticProps() {
-  const headers: HeadersInit = new Headers();
-  headers.set(
-    "X-API-KEY",
-    process.env.MABBAYAD_DARREN_PORTFOLIO_BUNGIE_API_KEY || ""
-  );
-
-  const getManifest = await fetch(
-    "https://www.bungie.net/Platform/Destiny2/Manifest/",
-    {
-      method: "GET",
-      headers: headers,
-    }
-  );
-  const manifest = await getManifest.json();
+  const manifest = await getManifest();
   const data = manifest.Response.jsonWorldComponentContentPaths.en;
   const definitions = [
     data.DestinyInventoryItemDefinition,
@@ -61,9 +50,8 @@ export async function getStaticProps() {
 
   const dataAsArr = await Promise.all(
     definitions.map(async (key: string) => {
-      const dataset = await fetch(`https://www.bungie.net${key}`);
-      const json = await dataset.json();
-      return json;
+      const dataset = await getDestinyDefinitionsObject(key);
+      return dataset;
     })
   );
 
