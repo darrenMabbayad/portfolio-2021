@@ -33,7 +33,10 @@ const Destiny2 = ({ dataAsArr }: Props) => {
 
 export async function getStaticProps() {
   const headers: HeadersInit = new Headers();
-  headers.set("X-API-KEY", process.env.BUNGIE_API_KEY || "");
+  headers.set(
+    "X-API-KEY",
+    process.env.MABBAYAD_DARREN_PORTFOLIO_BUNGIE_API_KEY || ""
+  );
 
   const getManifest = await fetch(
     "https://www.bungie.net/Platform/Destiny2/Manifest/",
