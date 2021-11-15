@@ -13,7 +13,19 @@ export const getManifest = async () => {
     }
   );
   const manifest = await res.json();
-  return manifest;
+  const { en: definition } = manifest.Response.jsonWorldComponentContentPaths;
+  const data = [
+    definition.DestinyInventoryItemDefinition,
+    definition.DestinyEquipmentSlotDefinition,
+    definition.DestinySocketCategoryDefinition,
+    definition.DestinyItemCategoryDefinition,
+    definition.DestinyPlugSetDefinition,
+    definition.DestinyStatDefinition,
+    definition.DestinySandboxPerkDefinition,
+    definition.DestinyTalentGridDefinition,
+    definition.DestinyCollectibleDefinition,
+  ];
+  return data;
 };
 
 export const getDestinyDefinitionsObject = async (definition: string) => {

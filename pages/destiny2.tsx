@@ -1,9 +1,11 @@
+import { getManifest } from "utils/asyncHandlers";
+
 interface Props {
-  data: any;
+  manifest: Array<string>;
 }
 
-const Destiny2 = ({ data }: Props) => {
-  console.log(data);
+const Destiny2 = ({ manifest }: Props) => {
+  console.log(manifest);
   return (
     <div>
       <p>Testing Stuff</p>
@@ -12,24 +14,11 @@ const Destiny2 = ({ data }: Props) => {
 };
 
 export async function getStaticProps() {
-  const manifest = await fetch(`${process.env.BASE_URL}/api/d2manifest`);
-  const data = await manifest.json();
-  // const definitions = [
-  //   manifestComponents.DestinyInventoryItemDefinition,
-  //   manifestComponents.DestinyEquipmentSlotDefinition,
-  //   manifestComponents.DestinySocketCategoryDefinition,
-  //   manifestComponents.DestinyItemCategoryDefinition,
-  //   manifestComponents.DestinyPlugSetDefinition,
-  //   manifestComponents.DestinyStatDefinition,
-  //   manifestComponents.DestinySandboxPerkDefinition,
-  //   manifestComponents.DestinyTalentGridDefinition,
-  //   manifestComponents.DestinyCollectibleDefinition,
-  // ];
-  // const data = await mapDestinyDataTables(definitions);
+  const manifest = await getManifest();
 
   return {
     props: {
-      data,
+      manifest,
     },
   };
 }
