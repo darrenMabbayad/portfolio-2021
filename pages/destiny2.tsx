@@ -1,4 +1,3 @@
-import Loading from "@components/common/Loading";
 import { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 
 const Destiny: NextPage = ({
@@ -18,24 +17,16 @@ const Destiny: NextPage = ({
 
   return (
     <div>
-      {res ? (
-        <>
-          <p>Testing Stuff</p>
-          <button onClick={() => console.log(inventoryItems)}>Inventory</button>
-          <button onClick={() => console.log(equipSlots)}>Slots</button>
-          <button onClick={() => console.log(socketCategories)}>Sockets</button>
-          <button onClick={() => console.log(itemCategories)}>ItemCats</button>
-          <button onClick={() => console.log(plugSets)}>Plugs</button>
-          <button onClick={() => console.log(stats)}>Stats</button>
-          <button onClick={() => console.log(sandboxPerks)}>Perks</button>
-          <button onClick={() => console.log(talentGrids)}>Talents</button>
-          <button onClick={() => console.log(collectibles)}>
-            Collectibles
-          </button>
-        </>
-      ) : (
-        <Loading />
-      )}
+      <p>Testing Stuff</p>
+      <button onClick={() => console.log(inventoryItems)}>Inventory</button>
+      <button onClick={() => console.log(equipSlots)}>Slots</button>
+      <button onClick={() => console.log(socketCategories)}>Sockets</button>
+      <button onClick={() => console.log(itemCategories)}>ItemCats</button>
+      <button onClick={() => console.log(plugSets)}>Plugs</button>
+      <button onClick={() => console.log(stats)}>Stats</button>
+      <button onClick={() => console.log(sandboxPerks)}>Perks</button>
+      <button onClick={() => console.log(talentGrids)}>Talents</button>
+      <button onClick={() => console.log(collectibles)}>Collectibles</button>
     </div>
   );
 };
