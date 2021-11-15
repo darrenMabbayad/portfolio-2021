@@ -230,6 +230,15 @@ const Home: NextPage = () => {
             description={
               "A 4 - 8 player word guessing game I developed with two other fantastic developers at the Hatchways co-op program, with an optional video chat feature."
             }
+            techList={[
+              "React",
+              "Express.js",
+              "MongoDB",
+              "Node.js",
+              "WebRTC",
+              "Socket.io",
+              "MaterialUI",
+            ]}
           />
           <Card
             title={"HunterMains"}
@@ -247,6 +256,7 @@ const Home: NextPage = () => {
             description={
               "A Destiny 2 themed static website I deployed when I first started learning about web development and UI/UX."
             }
+            techList={["React", "SCSS/Sass", "AdobeXD"]}
           />
           <Card
             title={"DiscordBot"}
@@ -260,6 +270,7 @@ const Home: NextPage = () => {
             description={
               "A discord bot I made for fun so that I can test out different admin/user commands on my own Discord server."
             }
+            techList={["Javascript", "Discord.js API", "Openweathermap API"]}
           />
         </div>
       </section>

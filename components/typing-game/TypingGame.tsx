@@ -48,9 +48,9 @@ export const TypingGame: FunctionComponent<Props> = ({
   });
   const [chartData, setChartData] = useState<Array<ScoreWithTimeStamp>>([]);
 
-  const inputRef = useRef<HTMLInputElement>(null);
-  const typingCursorRef = useRef<HTMLDivElement>(null);
-  const wordsContainerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const typingCursorRef = useRef<HTMLDivElement | null>(null);
+  const wordsContainerRef = useRef<HTMLDivElement | null>(null);
 
   function handleInput(e: ChangeEvent<HTMLInputElement>) {
     const { value } = e.target;
@@ -183,11 +183,11 @@ export const TypingGame: FunctionComponent<Props> = ({
       event.preventDefault();
     }
 
-    const activeWord =
-      wordsContainerRef?.current?.querySelector(".word-div.active");
-    const letterList = activeWord?.querySelectorAll(".letter-div");
+    if (typingCursorRef.current && wordsContainerRef.current) {
+      const activeWord =
+        wordsContainerRef.current.querySelector(".word-div.active");
+      const letterList = activeWord?.querySelectorAll(".letter-div");
 
-    if (typingCursorRef.current) {
       if (event.keyCode === 32) {
         // check SPACEBAR keypress and check status of each letter
         let isCorrect = true;
@@ -221,6 +221,15 @@ export const TypingGame: FunctionComponent<Props> = ({
           } else {
             typingCursorRef.current.style.top = `2px`;
             typingCursorRef.current.style.left = `2px`;
+            wordsContainerRef.current
+              .querySelectorAll(".correct,.incorrect")
+              .forEach((letter) => {
+                if (letter.classList.contains("correct")) {
+                  letter.classList.remove("correct");
+                } else if (letter.classList.contains("incorrect")) {
+                  letter.classList.remove("incorrect");
+                }
+              });
             setWords(shuffle());
           }
           activeWord?.classList.remove("active");
@@ -358,8 +367,8 @@ export const TypingGame: FunctionComponent<Props> = ({
         characters={characterScore}
         resetGame={() => {
           setInputVal("");
-          const newWords = shuffle();
-          setWords(newWords);
+          setWords(shuffle());
+          clearExtraLetters();
           resetGame();
         }}
         chartData={chartData}
