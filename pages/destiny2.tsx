@@ -2,7 +2,7 @@ interface Props {
   dataAsArr: Array<Object>;
 }
 
-const destiny2 = ({ dataAsArr }: Props) => {
+const Destiny2 = ({ dataAsArr }: Props) => {
   const [
     inventoryItems,
     equipSlots,
@@ -71,4 +71,4 @@ export async function getStaticProps() {
   };
 }
 
-export default destiny2;
+export default Destiny2;
