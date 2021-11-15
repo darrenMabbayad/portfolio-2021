@@ -4,7 +4,7 @@ interface Props {
   dataAsArr: Array<Object>;
 }
 
-const Destiny: NextPage<Props> = ({ dataAsArr }) => {
+const destiny2: NextPage<Props> = ({ dataAsArr }) => {
   const [
     inventoryItems,
     equipSlots,
@@ -73,4 +73,4 @@ export async function getStaticProps() {
   };
 }
 
-export default Destiny;
+export default destiny2;
