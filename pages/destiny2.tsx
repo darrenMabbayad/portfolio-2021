@@ -1,8 +1,8 @@
-import { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
+import { InferGetStaticPropsType, NextPage } from "next";
 
-const Destiny: NextPage = ({
+const Destiny: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   dataAsArr,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+}) => {
   // const [
   //   inventoryItems,
   //   equipSlots,
@@ -31,19 +31,19 @@ const Destiny: NextPage = ({
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
-  const headers: HeadersInit = new Headers();
-  headers.set("X-API-KEY", process.env.BUNGIE_API_KEY || "");
+export async function getStaticProps() {
+  // const headers: HeadersInit = new Headers();
+  // headers.set("X-API-KEY", process.env.BUNGIE_API_KEY || "");
 
-  const getManifest = await fetch(
-    "https://www.bungie.net/Platform/Destiny2/Manifest/",
-    {
-      method: "GET",
-      headers: headers,
-    }
-  );
-  const manifest = await getManifest.json();
-  const data = manifest.Response.jsonWorldComponentContentPaths.en;
+  // const getManifest = await fetch(
+  //   "https://www.bungie.net/Platform/Destiny2/Manifest/",
+  //   {
+  //     method: "GET",
+  //     headers: headers,
+  //   }
+  // );
+  // const manifest = await getManifest.json();
+  // const data = manifest.Response.jsonWorldComponentContentPaths.en;
   // const definitions = [
   //   data.DestinyInventoryItemDefinition,
   //   data.DestinyEquipmentSlotDefinition,
@@ -70,6 +70,6 @@ export const getStaticProps: GetStaticProps = async () => {
       dataAsArr,
     },
   };
-};
+}
 
 export default Destiny;
