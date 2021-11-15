@@ -3,22 +3,22 @@ import { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 const Destiny: NextPage = ({
   dataAsArr,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const [
-    inventoryItems,
-    equipSlots,
-    socketCategories,
-    itemCategories,
-    plugSets,
-    stats,
-    sandboxPerks,
-    talentGrids,
-    collectibles,
-  ] = dataAsArr;
+  // const [
+  //   inventoryItems,
+  //   equipSlots,
+  //   socketCategories,
+  //   itemCategories,
+  //   plugSets,
+  //   stats,
+  //   sandboxPerks,
+  //   talentGrids,
+  //   collectibles,
+  // ] = dataAsArr;
 
   return (
     <div>
       <p>Testing Stuff</p>
-      <button onClick={() => console.log(inventoryItems)}>Inventory</button>
+      {/* <button onClick={() => console.log(inventoryItems)}>Inventory</button>
       <button onClick={() => console.log(equipSlots)}>Slots</button>
       <button onClick={() => console.log(socketCategories)}>Sockets</button>
       <button onClick={() => console.log(itemCategories)}>ItemCats</button>
@@ -26,7 +26,7 @@ const Destiny: NextPage = ({
       <button onClick={() => console.log(stats)}>Stats</button>
       <button onClick={() => console.log(sandboxPerks)}>Perks</button>
       <button onClick={() => console.log(talentGrids)}>Talents</button>
-      <button onClick={() => console.log(collectibles)}>Collectibles</button>
+      <button onClick={() => console.log(collectibles)}>Collectibles</button> */}
     </div>
   );
 };
@@ -44,25 +44,26 @@ export const getStaticProps: GetStaticProps = async () => {
   );
   const manifest = await getManifest.json();
   const data = manifest.Response.jsonWorldComponentContentPaths.en;
-  const definitions = [
-    data.DestinyInventoryItemDefinition,
-    data.DestinyEquipmentSlotDefinition,
-    data.DestinySocketCategoryDefinition,
-    data.DestinyItemCategoryDefinition,
-    data.DestinyPlugSetDefinition,
-    data.DestinyStatDefinition,
-    data.DestinySandboxPerkDefinition,
-    data.DestinyTalentGridDefinition,
-    data.DestinyCollectibleDefinition,
-  ];
+  // const definitions = [
+  //   data.DestinyInventoryItemDefinition,
+  //   data.DestinyEquipmentSlotDefinition,
+  //   data.DestinySocketCategoryDefinition,
+  //   data.DestinyItemCategoryDefinition,
+  //   data.DestinyPlugSetDefinition,
+  //   data.DestinyStatDefinition,
+  //   data.DestinySandboxPerkDefinition,
+  //   data.DestinyTalentGridDefinition,
+  //   data.DestinyCollectibleDefinition,
+  // ];
 
-  const dataAsArr = await Promise.all(
-    definitions.map(async (key: string) => {
-      const dataset = await fetch(`https://www.bungie.net${key}`);
-      const json = await dataset.json();
-      return json;
-    })
-  );
+  // const dataAsArr = await Promise.all(
+  //   definitions.map(async (key: string) => {
+  //     const dataset = await fetch(`https://www.bungie.net${key}`);
+  //     const json = await dataset.json();
+  //     return json;
+  //   })
+  // );
+  const dataAsArr = {};
 
   return {
     props: {
