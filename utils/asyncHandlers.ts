@@ -1,9 +1,6 @@
 export const getManifest = async () => {
   const headers: HeadersInit = new Headers();
-  headers.set(
-    "X-API-KEY",
-    process.env.MABBAYAD_DARREN_PORTFOLIO_BUNGIE_API_KEY || ""
-  );
+  headers.set("X-API-KEY", "3301013992064ded9a6575808b2dac27" || "");
 
   const res = await fetch(
     "https://www.bungie.net/Platform/Destiny2/Manifest/",
