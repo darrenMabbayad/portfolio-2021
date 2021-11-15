@@ -21,3 +21,13 @@ export const getDestinyDefinitionsObject = async (definition: string) => {
   const data = res.json();
   return data;
 };
+
+export const mapDestinyDataTables = async (table: Array<string>) => {
+  const mappedData = await Promise.all(
+    table.map(async (key: string) => {
+      const tableData = await getDestinyDefinitionsObject(key);
+      return tableData;
+    })
+  );
+  return mappedData;
+};
