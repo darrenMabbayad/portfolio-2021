@@ -1,8 +1,6 @@
-import { InferGetStaticPropsType, NextPage } from "next";
+import { NextPage } from "next";
 
-const Destiny: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
-  dataAsArr,
-}) => {
+const Destiny: NextPage = () => {
   // const [
   //   inventoryItems,
   //   equipSlots,
@@ -63,12 +61,9 @@ export async function getStaticProps() {
   //     return json;
   //   })
   // );
-  const dataAsArr = {};
 
   return {
-    props: {
-      dataAsArr,
-    },
+    props: {},
   };
 }
 
