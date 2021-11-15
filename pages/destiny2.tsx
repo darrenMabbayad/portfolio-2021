@@ -1,10 +1,8 @@
-import { NextPage } from "next";
-
 interface Props {
   dataAsArr: Array<Object>;
 }
 
-const destiny2: NextPage<Props> = ({ dataAsArr }) => {
+const destiny2 = ({ dataAsArr }: Props) => {
   const [
     inventoryItems,
     equipSlots,
