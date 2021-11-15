@@ -12,10 +12,8 @@ const Destiny2 = ({ data }: Props) => {
 };
 
 export async function getStaticProps() {
-  const res = await fetch("http://localhost:3000/api/d2manifest");
-  const data = await res.json();
-  // const manifestComponents =
-  //   manifest.Response.jsonWorldComponentContentPaths.en;
+  const manifest = await fetch(`${process.env.BASE_URL}/api/d2manifest`);
+  const data = await manifest.json();
   // const definitions = [
   //   manifestComponents.DestinyInventoryItemDefinition,
   //   manifestComponents.DestinyEquipmentSlotDefinition,
@@ -27,7 +25,6 @@ export async function getStaticProps() {
   //   manifestComponents.DestinyTalentGridDefinition,
   //   manifestComponents.DestinyCollectibleDefinition,
   // ];
-
   // const data = await mapDestinyDataTables(definitions);
 
   return {
